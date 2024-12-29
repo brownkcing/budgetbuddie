@@ -1,5 +1,6 @@
 import { Dashboard } from '@/components/dashboard/Dashboard'
 import { BudgetSummary } from '@/components/budget/BudgetSummary'
+import { AddTransaction } from '@/components/transactions/AddTransaction'
 
 function App() {
   return (
@@ -9,6 +10,9 @@ function App() {
         totalSpent={3250}
         totalRemaining={1750}
       />
+      <div className="mb-4">
+        <AddTransaction />
+      </div>
       <div className="mt-8">
         <Dashboard />
       </div>
