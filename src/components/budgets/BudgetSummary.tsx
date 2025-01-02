@@ -1,12 +1,13 @@
-import { Card, CardHeader, CardTitle, CardContent } from '../ui/card'
+import { useAppSelector } from '@/hooks/useAppDispatch';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
-interface BudgetSummaryProps {
-  totalBudget: number
-  totalSpent: number
-  totalRemaining: number
-}
+export function BudgetSummary() {
+  const budgets = useAppSelector((state) => state.budgets.items);
+  
+  const totalBudget = budgets.reduce((sum, budget) => sum + budget.amount, 0);
+  const totalSpent = budgets.reduce((sum, budget) => sum + budget.spent, 0);
+  const remaining = totalBudget - totalSpent;
 
-export function BudgetSummary({ totalBudget, totalSpent, totalRemaining }: BudgetSummaryProps) {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <Card>
@@ -17,7 +18,7 @@ export function BudgetSummary({ totalBudget, totalSpent, totalRemaining }: Budge
           <div className="text-2xl font-bold">${totalBudget.toLocaleString()}</div>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader>
           <CardTitle className="text-sm font-medium">Total Spent</CardTitle>
@@ -26,15 +27,15 @@ export function BudgetSummary({ totalBudget, totalSpent, totalRemaining }: Budge
           <div className="text-2xl font-bold text-red-600">${totalSpent.toLocaleString()}</div>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader>
           <CardTitle className="text-sm font-medium">Remaining</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-green-600">${totalRemaining.toLocaleString()}</div>
+          <div className="text-2xl font-bold text-green-600">${remaining.toLocaleString()}</div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
