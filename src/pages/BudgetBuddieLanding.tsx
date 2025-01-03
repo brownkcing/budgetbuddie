@@ -11,7 +11,7 @@ export function BudgetBuddieLanding() {
               BudgetBuddie
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Smart personal finance management made simple. Track expenses, set budgets, and achieve your financial goals.
+              Smart personal finance management made simple.
             </p>
             <Button 
               size="lg"
