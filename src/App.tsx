@@ -1,21 +1,19 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@/store';
-import { BudgetSummary } from '@/components/budgets/BudgetSummary';
-import { SetBudget } from '@/components/budgets/SetBudget';
-import { BudgetList } from '@/components/budgets/BudgetList';
+import { BudgetBuddieLanding } from '@/pages/BudgetBuddieLanding';
+import { Dashboard } from '@/pages/Dashboard'; // Move current App content to this component
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-6">BudgetBuddie</h1>
-        
-        <div className="space-y-6">
-          <SetBudget />
-          <BudgetSummary />
-          <BudgetList />
-        </div>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<BudgetBuddieLanding />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   );
 }

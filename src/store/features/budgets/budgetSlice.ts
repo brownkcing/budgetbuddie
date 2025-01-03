@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Budget, BudgetCreate } from '@/types/budget.types';
 import { budgetAPI } from '@/api/budgets/budgetAPI';
+import { RootState } from '@/store';
 
 interface BudgetState {
   items: Budget[];
@@ -36,6 +37,17 @@ export const deleteBudget = createAsyncThunk(
   }
 );
 
+export const updateBudgetSpent = createAsyncThunk(
+  'budgets/updateSpent',
+  async ({ id, amount }: { id: string; amount: number }, { getState }) => {
+    const budgets = (getState() as RootState).budgets.items;
+    const budget = budgets.find(b => b.id === id);
+    if (!budget) throw new Error('Budget not found');
+
+    return await budgetAPI.updateSpent(id, amount);
+  }
+);
+
 const budgetSlice = createSlice({
   name: 'budgets',
   initialState,
@@ -54,7 +66,13 @@ const budgetSlice = createSlice({
       })
       .addCase(deleteBudget.fulfilled, (state, action) => {
         state.items = state.items.filter(item => item.id !== action.payload);
-      });
+      }) 
+      .addCase(updateBudgetSpent.fulfilled, (state, action) => {
+        const index = state.items.findIndex(item => item.id === action.payload.id);
+        if (index !== -1) {
+          state.items[index].spent = action.payload.spent;
+      }
+    });
   }
 });
 
